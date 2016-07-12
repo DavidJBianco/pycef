@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 
-import sys
 import re
-import json
 
-
-def cef_parse(str):
+def parse(str):
     """
     Parse a string in CEF format and return a dict with the header values
     and the extension data.
@@ -56,17 +53,23 @@ def cef_parse(str):
     return values
 
 ###### Main ######
-if len(sys.argv) != 2:
-    print "USAGE: %s <file>" % sys.argv[0]
-    sys.exit(-1)
+if __name__ == "__main__":
 
-file = sys.argv[1]
+    import sys
+    import json
+    
+    if len(sys.argv) != 2:
+        print "USAGE: %s <file>" % sys.argv[0]
+        sys.exit(-1)
 
-for line in open(file, "r").readlines():
-    line = line.rstrip('\n')
+    file = sys.argv[1]
 
-    # Read the file, and parse each line of CEF into a separate JSON document
-    # to stdout
-    values = cef_parse(line)
-    print json.dumps(values)
+    for line in open(file, "r").readlines():
+        line = line.rstrip('\n')
+        
+        # Read the file, and parse each line of CEF into a separate JSON
+        # document to stdout
+        values = parse(line)
+        print json.dumps(values)
 
+        
