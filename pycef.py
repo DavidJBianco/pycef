@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 
-import sys
 import re
-import json
 
-
-def cef_parse(str):
+def parse(str):
     """
     Parse a string in CEF format and return a dict with the header values
     and the extension data.
@@ -36,12 +33,17 @@ def cef_parse(str):
         values["DeviceVersion"] = spl[3]
         values["DeviceEventClassID"] = spl[4]
         values["DeviceName"] = spl[5]
-        values["DeviceSeverity"] = spl[6]
-        
+        if len(spl) > 6:
+            values["DeviceSeverity"] = spl[6]
+
         # The first value is actually the CEF version, formatted like
-        # "CEF:#".  We split on the colon and use the second value as the
+        # "CEF:#".  Ignore anything before that (like a date from a syslog message).
+        # We then split on the colon and use the second value as the
         # version number.
-        (cef, version) = spl[0].split(':')
+        cef_start = spl[0].find('CEF')
+        if cef_start == -1:
+            return None
+        (cef, version) = spl[0][cef_start:].split(':')
         values["CEFVersion"] = version
 
         # The ugly, gnarly regex here finds a single key=value pair,
@@ -56,17 +58,26 @@ def cef_parse(str):
     return values
 
 ###### Main ######
-if len(sys.argv) != 2:
-    print "USAGE: %s <file>" % sys.argv[0]
-    sys.exit(-1)
+if __name__ == "__main__":
 
-file = sys.argv[1]
+    import sys
+    import json
+    
+    if len(sys.argv) != 2:
+        print "USAGE: %s <file>" % sys.argv[0]
+        sys.exit(-1)
 
-for line in open(file, "r").readlines():
-    line = line.rstrip('\n')
+    file = sys.argv[1]
 
-    # Read the file, and parse each line of CEF into a separate JSON document
-    # to stdout
-    values = cef_parse(line)
-    print json.dumps(values)
-
+    for line in open(file, "r").readlines():
+        line = line.rstrip('\n')
+        
+        # Read the file, and parse each line of CEF into a separate JSON
+        # document to stdout
+        try:
+            values = parse(line)
+        except (TypeError, ValueError) as e:
+            sys.stderr.write('{0} parsing line:\n{1}\n'.format(e.message, line))
+        else:
+            if values:
+                print json.dumps(values)
