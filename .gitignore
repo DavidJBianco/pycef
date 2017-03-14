@@ -90,3 +90,7 @@ ENV/
 
 # EMACS
 *~
+
+# Eclipse project files
+.pydevproject
+.project
