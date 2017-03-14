@@ -2,7 +2,7 @@
 
 import re
 
-def parse(str):
+def parse(str_input):
     """
     Parse a string in CEF format and return a dict with the header values
     and the extension data.
@@ -16,7 +16,7 @@ def parse(str):
     # part.
     header_re = r'(.*(?<!\\)\|){,7}(.*)'
     
-    res = re.search(header_re, str)
+    res = re.search(header_re, str_input)
     if res:
         header = res.group(1)
         extension = res.group(2)
