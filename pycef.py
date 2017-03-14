@@ -2,7 +2,7 @@
 
 import re
 
-def parse(str):
+def parse(str_input):
     """
     Parse a string in CEF format and return a dict with the header values
     and the extension data.
@@ -16,7 +16,7 @@ def parse(str):
     # part.
     header_re = r'(.*(?<!\\)\|){,7}(.*)'
     
-    res = re.search(header_re, str)
+    res = re.search(header_re, str_input)
     if res:
         header = res.group(1)
         extension = res.group(2)
@@ -53,6 +53,19 @@ def parse(str):
         for i in spl:
             # Split the tuples and put them into the dictionary
             values[i[0]] = i[1]
+            
+        # Process custom field labels
+        for key in values.keys():
+            # If the key string ends with Label, replace it in the appropriate 
+            # custom field
+            if key[-5:] == "Label":
+                customlabel = key[:-5]
+                # Find the corresponding customfield and replace with the label
+                for customfield in values.keys():
+                    if customfield == customlabel:
+                        values[values[key]] = values[customfield]
+                        del values[customfield]
+                        del values[key]
 
     # Now we're done!
     return values
