@@ -53,6 +53,19 @@ def parse(str_input):
         for i in spl:
             # Split the tuples and put them into the dictionary
             values[i[0]] = i[1]
+            
+        # Process custom field labels
+        for key in values.keys():
+            # If the key string ends with Label, replace it in the appropriate 
+            # custom field
+            if key[-5:] == "Label":
+                customlabel = key[:-5]
+                # Find the corresponding customfield and replace with the label
+                for customfield in values.keys():
+                    if customfield == customlabel:
+                        values[values[key]] = values[customfield]
+                        del values[customfield]
+                        del values[key]
 
     # Now we're done!
     return values
