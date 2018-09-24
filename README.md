@@ -1,5 +1,5 @@
 # pycef
-A very simple CEF parser for Python
+A very simple CEF parser for Python 2/3
 
 I originally wrote this because I wasn't able to find very many good Python CEF parsers out there.  I did find [one by Sooshie](https://github.com/sooshie/cef_parser) that got me started (thanks for sharing, sir!), but I elected to produce my own.  
 

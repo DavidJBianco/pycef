@@ -16,12 +16,12 @@ def parse(str_input):
     # This regex separates the string into the CEF header and the extension
     # data.  Once we do this, it's easier to use other regexes to parse each
     # part.
-    header_re = r'(.*(?<!\\)\|){,7}(.*)'
+    header_re = r'((^CEF:\d+)([^=\\]+\|){,7})(.*)'
 
     res = re.search(header_re, str_input)
     if res:
         header = res.group(1)
-        extension = res.group(2)
+        extension = res.group(4)
 
         # Split the header on the "|" char.  Uses a negative lookbehind
         # assertion to ensure we don't accidentally split on escaped chars,
