@@ -16,7 +16,7 @@ def parse(str_input):
     # This regex separates the string into the CEF header and the extension
     # data.  Once we do this, it's easier to use other regexes to parse each
     # part.
-    header_re = r'((^CEF:\d+)([^=\\]+\|){,7})(.*)'
+    header_re = r'((CEF:\d+)([^=\\]+\|){,7})(.*)'
 
     res = re.search(header_re, str_input)
     if res:
