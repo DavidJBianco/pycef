@@ -2,7 +2,13 @@
 
 from __future__ import print_function
 
+import logging
 import re
+
+# Setup logging null handler
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
+
 
 def parse(str_input):
     """
@@ -19,6 +25,7 @@ def parse(str_input):
     header_re = r'((CEF:\d+)([^=\\]+\|){,7})(.*)'
 
     res = re.search(header_re, str_input)
+
     if res:
         header = res.group(1)
         extension = res.group(4)
@@ -68,8 +75,14 @@ def parse(str_input):
                         values[values[key]] = values[customfield]
                         del values[customfield]
                         del values[key]
+    else:
+        # return None if our regex had now output
+        logger.warning('Looks like our regex had no results')
+        logger.warning('Are you sending a valid CEF line?')
+        return None
 
     # Now we're done!
+    logger.debug('Returning values: ' + str(values))
     return values
 
 ###### Main ######
@@ -92,7 +105,11 @@ if __name__ == "__main__":
         try:
             values = parse(line)
         except (TypeError, ValueError) as e:
+            logger.error('{0} parsing line:\n{1}\n'.format(e.message, line))
             sys.stderr.write('{0} parsing line:\n{1}\n'.format(e.message, line))
         else:
             if values:
                 print(json.dumps(values))
+            if not values:
+                logger.info('No output returned, maybe your regex did not match?')
+                print('No output returned, maybe your regex did not match?')
