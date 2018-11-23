@@ -1,0 +1,1 @@
+Nov 16 21:24:18 arcsightfwd.davidbianco.io CEF:0|pycef|python CEF tests|1|2|Test event 1|3| field1=value1 field2=value2 field3=value3

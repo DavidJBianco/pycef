@@ -77,8 +77,7 @@ def parse(str_input):
                         del values[key]
     else:
         # return None if our regex had now output
-        logger.warning('Looks like our regex had no results')
-        logger.warning('Are you sending a valid CEF line?')
+        logger.warning('Could not parse record. Is it valid CEF format?')
         return None
 
     # Now we're done!
@@ -105,11 +104,9 @@ if __name__ == "__main__":
         try:
             values = parse(line)
         except (TypeError, ValueError) as e:
-            logger.error('{0} parsing line:\n{1}\n'.format(e.message, line))
             sys.stderr.write('{0} parsing line:\n{1}\n'.format(e.message, line))
         else:
             if values:
                 print(json.dumps(values))
             if not values:
-                logger.info('No output returned, maybe your regex did not match?')
                 print('No output returned, maybe your regex did not match?')
