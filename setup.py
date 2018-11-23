@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='pycef',
-      version='1.02',
+      version='1.10',
       description='A very simple CEF parser.',
       long_description=long_description,
       url='https://github.com/DavidJBianco/pycef',

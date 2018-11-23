@@ -10,6 +10,10 @@ REFERENCE_DATA = [LINE1_REF]
 
 class TestPyCEFPipes(TestCase):
     def test_pipes(self):
+        '''
+        Test to ensure that embedded pipe symbols in the values don't interfere
+        with parsing the CEF record.
+        '''
         with open("tests/testdata-pipes.cef", "r") as f:
             for l in f.readlines():
                 d = pycef.parse(l)
