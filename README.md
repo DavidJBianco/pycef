@@ -20,3 +20,10 @@ If there are any `key=value` pairs in the "extensions" section (and face it, pre
     >>> d = pycef.parse(cef)
     >>> d
     {'DeviceVendor': 'pycef', 'DeviceProduct': 'python CEF tests', 'DeviceVersion': '1', 'DeviceEventClassID': '2', 'DeviceName': 'Test event 1', 'DeviceSeverity': '3', 'CEFVersion': '0', 'field1': 'value1', 'field2': 'value2', 'field3': 'value3'}
+
+## Example Syslog CEF String Usage
+    >>> import pycef
+    >>> cef_syslog = 'Nov 16 21:24:18 arcsightfwd.davidbianco.io CEF:0|pycef|python CEF tests|1|2|Test event 1|3| field1=value1 field2=value2 field3=value3'
+    >>> d = pycef.parse(cef_syslog)
+    >>> d
+    {'DeviceVendor': 'pycef', 'DeviceProduct': 'python CEF tests', 'DeviceVersion': '1', 'DeviceEventClassID': '2', 'DeviceName': 'Test event 1', 'DeviceSeverity': '3', 'CEFVersion': '0', 'field1': 'value1', 'field2': 'value2', 'field3': 'value3'}
