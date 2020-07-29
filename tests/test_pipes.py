@@ -4,7 +4,7 @@ import pycef
 import json
 from unittest import TestCase
 
-LINE1_REF = dict(DeviceName="Test pipe event 1", field1="value1", field2="value2|more", field3="value3", DeviceVendor="pycef", CEFVersion="0", DeviceSeverity="3", DeviceEventClassID="2", DeviceProduct="python CEF tests", DeviceVersion="1")
+LINE1_REF = dict(Name="Test pipe event 1", DeviceName="Test pipe event 1", field1="value1", field2="value2|more", field3="value3", DeviceVendor="pycef", CEFVersion="0", Severity="3", DeviceSeverity="3", DeviceEventClassID="2", DeviceProduct="python CEF tests", DeviceVersion="1")
 
 REFERENCE_DATA = [LINE1_REF]
 
